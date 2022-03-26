@@ -1,0 +1,15 @@
+Employee(SSN:varchar(11), userName:varchar(50), password:varchar(50),firstName:varchar(30), lastName:varchar(30), PrimaryKey(SSN))
+
+Station(stationID:int, name:varchar(100), city:varchar(50), state:varchar(50), PrimaryKey(stationID)) 
+
+Train(tid:int, PrimaryKey(tid)) 
+
+Customer(userName:varchar(50), password:varchar(50), Email:varchar(100), firstName:varchar(30), lastName:varchar(30), isChild:bool, isSenior:bool, isDisabled:bool, discount:float, PrimaryKey(userName)) 
+
+TransitLine(name:varchar(50), depTime:Date, arrivalTime:Date, originStation:int, desStation:int, fare:float, PrimaryKey(name), ForeignKey(originStation) References Station (stationID), ForeignKey(desStation) References Station) 
+
+Stop(transitName:varchar(50), stationID:int, departTime:Date, arrivalTime:Date, Primary Key (transitName,stationID), ForeignKey (transitName) References  TransitLine, ForeignKey (stationID) References Station) 
+
+TrainSchedule(tid:int, transitName:varchar(50), PrimaryKey (tid,transitName), ForeignKey(transitName) References TransitLine, ForeignKey(tid) References Train) 
+
+Reservation(ReservationNumber:int, isRoundTrip:boolean, customer_username:varchar(50), date:Date, totalFare:float, outbound_tid:int, outbound_transitLineName:varchar(50), return_tid:int, return_transitLineName:varchar(50), reservationStation_origin : int, reservationStation_destination : int, PrimaryKey(reservationNum), ForeignKey(customer_userName) References Customer, ForeignKey(outbound_tid, outbound_transitLine) references TrainSchedule, ForeignKey(return_tid, return_transitLine) References TrainSchedule, ForeignKey(reservationStation_origin ) References Station, ForeignKey( reservationStation_destination) References Station)
